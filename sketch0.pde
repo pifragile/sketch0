@@ -14,27 +14,32 @@ void setup() {
 void draw() {
     //background(255);
     if (img0 != null && img0.width > 0 && img1 != null && img1.width > 0) {
-        int imgWidth = min(img0.width, img1.width);
-        int imgHeight = min(img0.height, img1.height);
+        int imgWidth = img0.width;
+        int imgHeight = img0.height;
             
         PGraphics g = createGraphics(imgWidth, imgHeight);
         g.beginDraw();
         g.background(10,10,10,255);
         g.blendMode(DODGE);
         //g.drawingContext.globalAlpha = 0.9;
-        g.tint(200, 200);
         
-        for (int i = 0; i < 50; i++) {
+        
+        PGraphics res0 = processImage(img0);
+        g.image(img0, 0, 0, imgWidth, imgHeight);
+        g.tint(200, 200);
+        g.image(res0, 0, 0, imgWidth, imgHeight);
+        
+        for (int i = 0; i < 2; i++) {
             PImage im = random(1.0) < 0.5 ? img0 : img1;
             
-            int x = floor(random(im.width));
-            int y = floor(random(im.height));
-            int sw = ceil((im.width - x - 1) * (random(0.6) + 0.2) + 1);
-            int sh = ceil((im.height - y - 1) * (random(0.6) + 0.2) + 1);
+            int x = floor(random(im.width * 0.5));
+            int y = floor(random(im.height * 0.5));
+            int sw = ceil((im.width - x - 1) * (random(0.3) + 0.7) + 1);
+            int sh = ceil((im.height - y - 1) * (random(0.3) + 0.7) + 1);
             PImage subImg = im.get(x, y, sw, sh);
      
             PGraphics res = processImage(subImg);
-            g.image(res, random(g.width), random(g.height), res.width, res.height);
+            g.image(res, random(g.width - sw), random(g.height - sh), res.width, res.height);
             //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
         }
         g.endDraw();
