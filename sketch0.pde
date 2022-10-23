@@ -1,12 +1,37 @@
 import java.util.Arrays;   
 PImage img0, img1;
 
+////////
+//// Mit diesen Werten und Bildpfaden könnt ihr runspielen, also einfach die Zahlen ändern.
+//// Die Bilder müsst ihr im data ordner ablegen und dann unten den Pfad angeben
+//// Es gibt immer 2.Bilder. Ich habe jetzt als das erste Bild immer ein Raumbild genommen
+//// und als zweites ein ptth. Da könnt ihr natürlich alles ausprobieren!
+
+//// Dann könnt ihr oben auf play drücken, und los gehts :)
+//// Drückt auch mehrmals, es gibt immer andere outputs, wegen random!
+/////
+
+// Grundzersetzung, Werte zwischen 0 und 255
+int zTint = 150;
+
+// Zersetzungsdurchläufe, Werte zwischen 0 und 10
+int numLoops = 3;
+
+// Zersetzungsstärke, Alle Werte möglich, 1 - 10 ist spannend, 0 = randomisiert
+int globalIters = 2;
+
+// Bildpfade, Relativer pfad ab <SKETCH_ORDNER>/data
+String img0Path = "img/raum/3a.jpg";
+String img1Path = "img/ptth/3a.jpg";
+////////
+///////
+
 
 void setup() {
     size(1000, 1000);
     String s1=dataPath("");
-    img0 = loadImage(s1+"/"+"img/raum/3a.jpg");
-    img1 = loadImage(s1+"/"+"img/ptth/3a.jpg");
+    img0 = loadImage(s1+"/"+img0Path);
+    img1 = loadImage(s1+"/"+img1Path);
     
     pixelDensity(1);
 }
@@ -25,11 +50,13 @@ void draw() {
         
         
         PGraphics res0 = processImage(img0);
+       
         g.image(img0, 0, 0, imgWidth, imgHeight);
-        g.tint(200, 200);
+
+        g.tint(zTint, zTint);
         g.image(res0, 0, 0, imgWidth, imgHeight);
-        
-        for (int i = 0; i < 2; i++) {
+        g.tint(200, 200);
+        for (int i = 0; i < numLoops; i++) {
             PImage im = random(1.0) < 0.5 ? img0 : img1;
             
             int x = floor(random(im.width * 0.5));
@@ -57,7 +84,7 @@ PGraphics processImage(PImage img) {
    
     pg.image(img, 0.0, 0.0, (float) w, (float) h);
     pg.loadPixels();
-    int numIters = floor(random(10.0));
+    int numIters = globalIters == 0 ? floor(random(10.0)): globalIters;//floor(random(10.0));
     int pl = pg.pixels.length;
     for (int _x = 0; _x < numIters; _x++) {
         int sectionLength = max(0, floor(random(pl * 0.5) - 4 - 1) + 1);
