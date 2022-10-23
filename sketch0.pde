@@ -5,7 +5,7 @@ PImage img0, img1;
 void setup() {
     size(1000, 1000);
     String s1=dataPath("");
-    img0 = loadImage(s1+"/"+"img/raum/1a.jpg");
+    img0 = loadImage(s1+"/"+"img/raum/3a.jpg");
     img1 = loadImage(s1+"/"+"img/ptth/3a.jpg");
     
     pixelDensity(1);
@@ -19,9 +19,10 @@ void draw() {
             
         PGraphics g = createGraphics(imgWidth, imgHeight);
         g.beginDraw();
-        //g.blendMode(DODGE);
+        g.background(10,10,10,255);
+        g.blendMode(DODGE);
         //g.drawingContext.globalAlpha = 0.9;
-        g.tint(255, 230);
+        g.tint(200, 200);
         
         for (int i = 0; i < 50; i++) {
             PImage im = random(1.0) < 0.5 ? img0 : img1;
@@ -34,7 +35,7 @@ void draw() {
      
             PGraphics res = processImage(subImg);
             g.image(res, random(g.width), random(g.height), res.width, res.height);
-            g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, DODGE);
+            //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
         }
         g.endDraw();
         image(g, 0, 0, g.width, g.height);
@@ -54,7 +55,7 @@ PGraphics processImage(PImage img) {
     int numIters = floor(random(10.0));
     int pl = pg.pixels.length;
     for (int _x = 0; _x < numIters; _x++) {
-        int sectionLength = floor(random(pl * 0.5) - 4 - 1) + 1;
+        int sectionLength = max(0, floor(random(pl * 0.5) - 4 - 1) + 1);
 
         int copyPos = floor(random(pl - sectionLength));
         int insertPos = floor(random(pl - sectionLength)); 
@@ -66,6 +67,7 @@ PGraphics processImage(PImage img) {
 
             if (insertPos + sectionLength >= pl) insertPos -= 4;
         }
+
         int[] section = Arrays.copyOfRange(pg.pixels, copyPos, copyPos + sectionLength);
         //int al = random(255)
         //section = section.map((x, i) => x == 255 ? al: x)
