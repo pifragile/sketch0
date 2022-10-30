@@ -1,3 +1,7 @@
+import codeanticode.syphon.*;
+SyphonServer server;
+
+
 import java.util.Arrays;   
 PImage img0, img1;
 
@@ -26,13 +30,13 @@ String img1Path = "img/ptth/3a.jpg";
 ////////
 ///////
 
-
 void setup() {
-    size(1000, 1000);
+    size(1000, 1000, P3D);
+    PJOGL.profile=1;
     String s1=dataPath("");
     img0 = loadImage(s1+"/"+img0Path);
     img1 = loadImage(s1+"/"+img1Path);
-    
+    server = new SyphonServer(this, "Processing Syphon");
     pixelDensity(1);
 }
 
@@ -71,6 +75,7 @@ void draw() {
         }
         g.endDraw();
         image(g, 0, 0, g.width, g.height);
+        server.sendImage(g);
         noLoop();
     }
 }
