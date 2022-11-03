@@ -71,6 +71,7 @@ void draw() {
         }
         g.endDraw();
         image(g, 0, 0, g.width, g.height);
+        g.save(Integer.toString((int) random(999999999)) + ".png");
         noLoop();
     }
 }
