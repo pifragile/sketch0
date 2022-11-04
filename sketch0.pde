@@ -1,6 +1,6 @@
 import java.util.Arrays;   
 PImage img0, img1;
-int cs = 4000;
+int cs = 500;
 
 ////////
 //// Mit diesen Werten und Bildpfaden könnt ihr runspielen, also einfach die Zahlen ändern.
@@ -16,30 +16,29 @@ int cs = 4000;
 int zTint = 150;
 
 // Zersetzungsdurchläufe, Werte zwischen 0 und 10
-int numLoops = 3;
+int numLoops = 0;
 
 // Zersetzungsstärke, Alle Werte möglich, 1 - 10 ist spannend, 0 = randomisiert
-int globalIters = 2;
+int globalIters = 1;
 
 ////////
 ///////
 String folderPath = "";
+PGraphics g;
 
 void setup() {
-    size(4000, 4000);
+    size(500, 500);
  
     pixelDensity(1);
     folderPath = "./images/" + Integer.toString((int) random(999999999)) + "/";
     new File(folderPath).mkdirs();
-}
 
-void draw() {
+    g = createGraphics(cs, cs);
+    g.beginDraw();
+    g.background(10,10,10,255);
+
+
     String s1=dataPath("");
-    zTint = (int) random(255);
-
-    zTint = 150;
-    numLoops = (int) random(10);
-    globalIters = (int) random(10);
 
     String img0Folder = "img/dalle/";
     File path0 = new File(s1+"/" + img0Folder);
@@ -47,49 +46,69 @@ void draw() {
     img0 = loadImage(img0Folder + images0[(int)random(images0.length)]);
 
 
-    String img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
+    String img1Path = "img/ptth/" + Integer.toString((int)random(11)) + "a.jpg";
     img1 = loadImage(s1+"/"+img1Path);
 
-    if (img0 != null && img0.width > 0 && img1 != null && img1.width > 0) {
-        int imgWidth = cs;
-        int imgHeight = cs;
-
-        img0.resize(cs, cs);
-        img1.resize((int) (cs * 0.5), (int) (cs * 0.5));
-        
-
-        PGraphics g = createGraphics(imgWidth, imgHeight);
-        g.beginDraw();
-        g.background(10,10,10,255);
-        g.blendMode(DODGE);
-        //g.drawingContext.globalAlpha = 0.9;
-        
-        
-        PGraphics res0 = processImage(img0);
+    PGraphics res0 = processImage(img0);
        
-        g.image(img0, 0, 0, imgWidth, imgHeight);
+    g.image(img0, 0, 0, cs, cs);
 
-        g.tint(zTint, zTint);
-        g.image(res0, 0, 0, imgWidth, imgHeight);
-        g.tint(random(80) + 170, random(80) + 170);
-        for (int i = 0; i < numLoops; i++) {
-            PImage im = random(1.0) < 0.5 ? img0 : img1;
-            
-            int x = floor(random(im.width * 0.5));
-            int y = floor(random(im.height * 0.5));
-            int sw = ceil((im.width - x - 1) * (random(0.3) + 0.7) + 1);
-            int sh = ceil((im.height - y - 1) * (random(0.3) + 0.7) + 1);
-            PImage subImg = im.get(x, y, sw, sh);
-     
-            PGraphics res = processImage(subImg);
-            g.image(res, random(g.width - sw), random(g.height - sh), res.width, res.height);
-            g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
-        }
-        g.endDraw();
-        image(g, 0, 0, g.width, g.height);
-        g.save(folderPath + Integer.toString((int) random(999999999)) + "_" + zTint+ "_" + numLoops + "_" + globalIters + ".png");
-        //noLoop();
-    }
+    g.tint(zTint, zTint);
+    g.image(res0, 0, 0, cs, cs);
+    g.endDraw();
+
+    frameRate(12);
+}
+
+void draw() {
+    g.beginDraw();
+    g.blendMode(BLEND);
+    zTint = (int) random(100);
+    PGraphics res0 = processImage(img0);
+    
+    g.tint(255, zTint);
+    g.image(img0, 0, 0, cs, cs);
+
+    g.tint((int) random(100), (int) random(100));
+    g.image(res0, 0, 0, cs, cs);
+
+    int imgWidth = cs;
+    int imgHeight = cs;
+
+    img0.resize(cs, cs);
+    img1.resize((int) (cs * 0.5), (int) (cs * 0.5));
+    
+
+
+    g.blendMode(DODGE);
+    //g.drawingContext.globalAlpha = 0.9;
+    
+    PImage im = random(1.0) < 0.5 ? img0 : img1;
+    
+    int x = floor(random(im.width * 0.5));
+    int y = floor(random(im.height * 0.5));
+    int sw = ceil((im.width - x - 1) * (random(0.3) + 0.7) + 1);
+    int sh = ceil((im.height - y - 1) * (random(0.3) + 0.7) + 1);
+    PImage subImg = im.get(x, y, sw, sh);
+
+    PGraphics res = processImage(subImg);
+    g.tint(random(255), random(255));
+    g.image(res, random(g.width - sw), random(g.height - sh), res.width, res.height);
+    //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
+
+    g.endDraw();
+    //tint(255, 100);
+
+    PImage imgBack = get();
+    //clear();
+    tint(255, 100);
+    image(g, 0, 0, g.width, g.height);
+    // tint(255, 255);
+    // image(imgBack, 0, 0, cs, cs);
+
+    // //g.save(folderPath + Integer.toString((int) random(999999999)) + "_" + zTint+ "_" + numLoops + "_" + globalIters + ".png");
+    // //noLoop();
+    
 }
 
 PGraphics processImage(PImage img) {
