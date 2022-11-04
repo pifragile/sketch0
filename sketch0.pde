@@ -78,7 +78,7 @@ void draw() {
      
             PGraphics res = processImage(subImg);
             g.image(res, random(g.width - sw), random(g.height - sh), res.width, res.height);
-            //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
+            g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
         }
         g.endDraw();
         image(g, 0, 0, g.width, g.height);
