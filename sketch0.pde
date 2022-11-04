@@ -21,9 +21,6 @@ int numLoops = 3;
 // Zersetzungsstärke, Alle Werte möglich, 1 - 10 ist spannend, 0 = randomisiert
 int globalIters = 2;
 
-// Bildpfade, Relativer pfad ab <SKETCH_ORDNER>/data
-String img0Path = "img/raum/3a.jpg";
-String img1Path = "img/ptth/3a.jpg";
 ////////
 ///////
 String folderPath = "";
@@ -37,17 +34,20 @@ void setup() {
 }
 
 void draw() {
+    String s1=dataPath("");
     zTint = (int) random(255);
 
     zTint = 150;
     numLoops = (int) random(10);
     globalIters = (int) random(10);
 
-    img0Path = "img/raum/" + Integer.toString((int) random(4)) + "a.jpg";
-    img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
+    String img0Folder = "img/dalle/";
+    File path0 = new File(s1+"/" + img0Folder);
+    String[] images0 = path0.list();
+    img0 = loadImage(img0Folder + images0[(int)random(images0.length)]);
 
-    String s1=dataPath("");
-    img0 = loadImage(s1+"/"+img0Path);
+
+    String img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
     img1 = loadImage(s1+"/"+img1Path);
 
     if (img0 != null && img0.width > 0 && img1 != null && img1.width > 0) {
@@ -55,7 +55,7 @@ void draw() {
         int imgHeight = cs;
 
         img0.resize(cs, cs);
-        img1.resize(cs, cs);
+        img1.resize((int) (cs * 0.5), (int) (cs * 0.5));
         
 
         PGraphics g = createGraphics(imgWidth, imgHeight);
