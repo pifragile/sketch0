@@ -25,7 +25,7 @@ String img0Path = "img/raum/3a.jpg";
 String img1Path = "img/ptth/3a.jpg";
 ////////
 ///////
-
+String folderPath = "";
 
 void setup() {
     size(1000, 1000);
@@ -34,10 +34,21 @@ void setup() {
     img1 = loadImage(s1+"/"+img1Path);
     
     pixelDensity(1);
+    folderPath = "./images/" + Integer.toString((int) random(999999999)) + "/";
+    new File(folderPath).mkdirs();
 }
 
 void draw() {
-    //background(255);
+    zTint = (int) random(255);
+
+    zTint = 150;
+    numLoops = (int) random(10);
+    globalIters = (int) random(100);
+
+    img0Path = "img/raum/" + Integer.toString((int) random(4)) + "a.jpg";
+    img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
+
+
     if (img0 != null && img0.width > 0 && img1 != null && img1.width > 0) {
         int imgWidth = img0.width;
         int imgHeight = img0.height;
@@ -71,8 +82,8 @@ void draw() {
         }
         g.endDraw();
         image(g, 0, 0, g.width, g.height);
-        g.save(Integer.toString((int) random(999999999)) + ".png");
-        noLoop();
+        g.save(folderPath + Integer.toString((int) random(999999999)) + "_" + zTint+ "_" + numLoops + "_" + globalIters + ".png");
+        //noLoop();
     }
 }
 
