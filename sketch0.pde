@@ -43,7 +43,7 @@ void draw() {
 
     zTint = 150;
     numLoops = (int) random(10);
-    globalIters = (int) random(100);
+    globalIters = (int) random(10);
 
     img0Path = "img/raum/" + Integer.toString((int) random(4)) + "a.jpg";
     img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
@@ -66,7 +66,7 @@ void draw() {
 
         g.tint(zTint, zTint);
         g.image(res0, 0, 0, imgWidth, imgHeight);
-        g.tint(200, 200);
+        g.tint(random(80) + 170, random(80) + 170);
         for (int i = 0; i < numLoops; i++) {
             PImage im = random(1.0) < 0.5 ? img0 : img1;
             
