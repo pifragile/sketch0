@@ -1,5 +1,6 @@
 import java.util.Arrays;   
 PImage img0, img1;
+int cs = 4000;
 
 ////////
 //// Mit diesen Werten und Bildpfaden könnt ihr runspielen, also einfach die Zahlen ändern.
@@ -28,11 +29,8 @@ String img1Path = "img/ptth/3a.jpg";
 String folderPath = "";
 
 void setup() {
-    size(1000, 1000);
-    String s1=dataPath("");
-    img0 = loadImage(s1+"/"+img0Path);
-    img1 = loadImage(s1+"/"+img1Path);
-    
+    size(4000, 4000);
+ 
     pixelDensity(1);
     folderPath = "./images/" + Integer.toString((int) random(999999999)) + "/";
     new File(folderPath).mkdirs();
@@ -48,11 +46,18 @@ void draw() {
     img0Path = "img/raum/" + Integer.toString((int) random(4)) + "a.jpg";
     img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
 
+    String s1=dataPath("");
+    img0 = loadImage(s1+"/"+img0Path);
+    img1 = loadImage(s1+"/"+img1Path);
 
     if (img0 != null && img0.width > 0 && img1 != null && img1.width > 0) {
-        int imgWidth = img0.width;
-        int imgHeight = img0.height;
-            
+        int imgWidth = cs;
+        int imgHeight = cs;
+
+        img0.resize(cs, cs);
+        img1.resize(cs, cs);
+        
+
         PGraphics g = createGraphics(imgWidth, imgHeight);
         g.beginDraw();
         g.background(10,10,10,255);
