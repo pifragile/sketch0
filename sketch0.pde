@@ -70,7 +70,7 @@ void draw() {
     g.blendMode(BLEND);
 
     if(random(1) < 0.05){
-        zTint = (int) random(255);
+        zTint = (int) random(100);
         PGraphics res0 = processImage(img0);
         
         g.tint(255, 30);
@@ -85,7 +85,7 @@ void draw() {
     int imgHeight = cs;
     
 
-    if(random(1) < 0.02) {
+    if(random(1) < 0.025) {
     g.blendMode(DODGE);
     //g.drawingContext.globalAlpha = 0.9;
     
