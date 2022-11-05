@@ -1,6 +1,6 @@
 import java.util.Arrays;   
 PImage img0, img1;
-int cs = 500;
+int cs = 1080;
 
 ////////
 //// Mit diesen Werten und Bildpfaden könnt ihr runspielen, also einfach die Zahlen ändern.
@@ -19,7 +19,7 @@ int zTint = 150;
 int numLoops = 0;
 
 // Zersetzungsstärke, Alle Werte möglich, 1 - 10 ist spannend, 0 = randomisiert
-int globalIters = 1;
+int globalIters = 0;
 
 ////////
 ///////
@@ -27,7 +27,7 @@ String folderPath = "";
 PGraphics g;
 
 void setup() {
-    size(500, 500);
+    size(1080, 1080);
  
     pixelDensity(1);
     folderPath = "./images/" + Integer.toString((int) random(999999999)) + "/";
@@ -49,37 +49,43 @@ void setup() {
     String img1Path = "img/ptth/" + Integer.toString((int)random(11)) + "a.jpg";
     img1 = loadImage(s1+"/"+img1Path);
 
+    img0.resize(cs, cs);
+    img1.resize((int) (cs * 3), (int) (cs * 3));
+
+
     PGraphics res0 = processImage(img0);
        
     g.image(img0, 0, 0, cs, cs);
 
-    g.tint(zTint, zTint);
-    g.image(res0, 0, 0, cs, cs);
+    // g.tint(zTint, zTint);
+    // g.image(res0, 0, 0, cs, cs);
     g.endDraw();
 
-    frameRate(12);
+    frameRate(25);
+    background(0,0,0,255);
 }
 
 void draw() {
     g.beginDraw();
     g.blendMode(BLEND);
-    zTint = (int) random(100);
-    PGraphics res0 = processImage(img0);
-    
-    g.tint(255, zTint);
-    g.image(img0, 0, 0, cs, cs);
 
-    g.tint((int) random(100), (int) random(100));
-    g.image(res0, 0, 0, cs, cs);
+    if(random(1) < 0.05){
+        zTint = (int) random(255);
+        PGraphics res0 = processImage(img0);
+        
+        g.tint(255, 30);
+        g.image(img0, 0, 0, cs, cs);
+    
+        // g.tint((int) random(50), (int) random(20));
+        // g.image(res0, 0, 0, cs, cs);
+
+    }
 
     int imgWidth = cs;
     int imgHeight = cs;
-
-    img0.resize(cs, cs);
-    img1.resize((int) (cs * 0.5), (int) (cs * 0.5));
     
 
-
+    if(random(1) < 0.02) {
     g.blendMode(DODGE);
     //g.drawingContext.globalAlpha = 0.9;
     
@@ -87,27 +93,29 @@ void draw() {
     
     int x = floor(random(im.width * 0.5));
     int y = floor(random(im.height * 0.5));
-    int sw = ceil((im.width - x - 1) * (random(0.3) + 0.7) + 1);
-    int sh = ceil((im.height - y - 1) * (random(0.3) + 0.7) + 1);
+    int sw = ceil((im.width - x - 1) * (random(0.7) + 0.3) + 1);
+    int sh = ceil((im.height - y - 1) * (random(0.7) + 0.3) + 1);
     PImage subImg = im.get(x, y, sw, sh);
 
     PGraphics res = processImage(subImg);
-    g.tint(random(255), random(255));
-    g.image(res, random(g.width - sw), random(g.height - sh), res.width, res.height);
+    g.tint(255, (int) random(255));
+    g.image(res, random(g.width - sw), random(g.height - sh), res.width * 2, res.height * 2);
     //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
 
+    }
     g.endDraw();
     //tint(255, 100);
 
-    PImage imgBack = get();
+    //PImage imgBack = get();
     //clear();
-    tint(255, 100);
+    tint(255, 50);
     image(g, 0, 0, g.width, g.height);
     // tint(255, 255);
     // image(imgBack, 0, 0, cs, cs);
 
     // //g.save(folderPath + Integer.toString((int) random(999999999)) + "_" + zTint+ "_" + numLoops + "_" + globalIters + ".png");
     // //noLoop();
+    //rec();
     
 }
 
@@ -145,7 +153,7 @@ PGraphics processImage(PImage img) {
         }
     }
     pg.updatePixels();
-    pg.filter(POSTERIZE, 2);
+    //pg.filter(POSTERIZE, 2);
     pg.endDraw();
     return pg;
 }
