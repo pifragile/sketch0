@@ -2,7 +2,7 @@ final String sketchname = getClass().getName();
 
 import com.hamoid.*;
 VideoExport videoExport;
-int vidLength = 30;
+int vidLength = 40;
 
 int FRAME_RATE = 25;
 int frameLength = vidLength * FRAME_RATE;
