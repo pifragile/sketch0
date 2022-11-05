@@ -122,7 +122,7 @@ void draw() {
 
     // //g.save(folderPath + Integer.toString((int) random(999999999)) + "_" + zTint+ "_" + numLoops + "_" + globalIters + ".png");
     // //noLoop();
-    //rec();
+    rec();
     
 }
 
