@@ -25,6 +25,9 @@ int globalIters = 0;
 ///////
 String folderPath = "";
 PGraphics g;
+float speed;
+int strength;
+float bloat;
 
 void setup() {
     size(1080, 1080);
@@ -50,7 +53,8 @@ void setup() {
     img1 = loadImage(s1+"/"+img1Path);
 
     img0.resize(cs, cs);
-    img1.resize((int) (cs * 3), (int) (cs * 3));
+    int resize = (int) random(3) + 1;
+    img1.resize((int) (cs * resize), (int) (cs * resize));
 
 
     PGraphics res0 = processImage(img0);
@@ -63,17 +67,20 @@ void setup() {
 
     frameRate(25);
     background(0,0,0,255);
+    speed = random(0.05) + 0.025;
+    strength = 0;//(int) random(50);
+    bloat = random(4) + 0.5;
 }
 
 void draw() {
     g.beginDraw();
     g.blendMode(BLEND);
 
-    if(random(1) < 0.05){
-        zTint = (int) random(100);
+    if(random(1) < speed){
+        zTint = (int) random(60) + 20;
         PGraphics res0 = processImage(img0);
         
-        g.tint(255, 30);
+        g.tint(255, zTint);
         g.image(img0, 0, 0, cs, cs);
     
         // g.tint((int) random(50), (int) random(20));
@@ -85,7 +92,7 @@ void draw() {
     int imgHeight = cs;
     
 
-    if(random(1) < 0.025) {
+    if(random(1) < speed * 0.5) {
     g.blendMode(DODGE);
     //g.drawingContext.globalAlpha = 0.9;
     
@@ -98,8 +105,8 @@ void draw() {
     PImage subImg = im.get(x, y, sw, sh);
 
     PGraphics res = processImage(subImg);
-    g.tint(255, (int) random(255));
-    g.image(res, random(g.width - sw), random(g.height - sh), res.width * 2, res.height * 2);
+    g.tint(255, (int) random(255) + strength);
+    g.image(res, random(g.width - sw * bloat), random(g.height - sh * bloat), res.width * bloat, res.height * bloat);
     //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
 
     }
