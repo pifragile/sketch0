@@ -19,7 +19,7 @@ int zTint = 150;
 int numLoops = 0;
 
 // Zersetzungsstärke, Alle Werte möglich, 1 - 10 ist spannend, 0 = randomisiert
-int globalIters = 0;
+int globalIters = 10;
 
 ////////
 ///////
@@ -28,6 +28,7 @@ PGraphics g;
 float speed;
 int strength;
 float bloat;
+int density;
 
 void setup() {
     size(1080, 1080);
@@ -53,13 +54,13 @@ void setup() {
     img1 = loadImage(s1+"/"+img1Path);
 
     img0.resize(cs, cs);
-    int resize = (int) random(3) + 1;
+    int resize = (int) 1;//random(3) + 1;
     img1.resize((int) (cs * resize), (int) (cs * resize));
 
 
     PGraphics res0 = processImage(img0);
        
-    g.image(img0, 0, 0, cs, cs);
+    //g.image(img0, 0, 0, cs, cs);
 
     // g.tint(zTint, zTint);
     // g.image(res0, 0, 0, cs, cs);
@@ -68,16 +69,17 @@ void setup() {
     frameRate(25);
     background(0,0,0,255);
     speed = random(0.05) + 0.025;
-    strength = 0;//(int) random(50);
-    bloat = random(4) + 0.5;
+    strength = 200;//(int) random(200) + 50;
+    bloat = 1;
+    density = 100;
 }
 
 void draw() {
     g.beginDraw();
     g.blendMode(BLEND);
 
-    if(random(1) < speed){
-        zTint = (int) random(60) + 20;
+    if(frameCount == 1 || random(1) < 4 * speed){
+        zTint = (int) random(30);
         PGraphics res0 = processImage(img0);
         
         g.tint(255, zTint);
@@ -91,24 +93,26 @@ void draw() {
     int imgWidth = cs;
     int imgHeight = cs;
     
+    if(frameCount == 1 || random(1) < speed * 0.5) {
+        density = (int) 10;//random(50) + 30;
+        bloat = random(3) + 0.5;
+        for(int i = 0; i < density; i++) {
+            g.blendMode(random(1) < 0.05 ? DODGE : HARD_LIGHT);
+            //g.drawingContext.globalAlpha = 0.9;
+            
+            PImage im = random(1.0) < 0.5 ? img0 : img1;
+            
+            int x = floor(random(im.width * 0.5));
+            int y = floor(random(im.height * 0.5));
+            int sw = ceil((im.width - x - 1) * (random(0.7) + 0.3) + 1);
+            int sh = ceil((im.height - y - 1) * (random(0.7) + 0.3) + 1);
+            PImage subImg = im.get(x, y, sw, sh);
 
-    if(random(1) < speed * 0.5) {
-    g.blendMode(DODGE);
-    //g.drawingContext.globalAlpha = 0.9;
-    
-    PImage im = random(1.0) < 0.5 ? img0 : img1;
-    
-    int x = floor(random(im.width * 0.5));
-    int y = floor(random(im.height * 0.5));
-    int sw = ceil((im.width - x - 1) * (random(0.7) + 0.3) + 1);
-    int sh = ceil((im.height - y - 1) * (random(0.7) + 0.3) + 1);
-    PImage subImg = im.get(x, y, sw, sh);
-
-    PGraphics res = processImage(subImg);
-    g.tint(255, (int) random(255) + strength);
-    g.image(res, random(g.width - sw * bloat), random(g.height - sh * bloat), res.width * bloat, res.height * bloat);
-    //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
-
+            PGraphics res = processImage(subImg);
+            g.tint(255, 255);
+            g.image(res, random(g.width - sw * bloat), random(g.height - sh * bloat), res.width * bloat, res.height * bloat);
+            //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
+                }
     }
     g.endDraw();
     //tint(255, 100);
@@ -132,10 +136,9 @@ PGraphics processImage(PImage img) {
     PGraphics pg = createGraphics(w, h);
     pg.beginDraw();
     //pg.pixelDensity(1);
-   
     pg.image(img, 0.0, 0.0, (float) w, (float) h);
     pg.loadPixels();
-    int numIters = globalIters == 0 ? floor(random(10.0)): globalIters;//floor(random(10.0));
+    int numIters = globalIters == 0 ? floor(random(50.0)): globalIters;//floor(random(10.0));
     int pl = pg.pixels.length;
     for (int _x = 0; _x < numIters; _x++) {
         int sectionLength = max(0, floor(random(pl * 0.5) - 4 - 1) + 1);
