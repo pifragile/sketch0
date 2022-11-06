@@ -81,7 +81,9 @@ void draw() {
     g.beginDraw();
     g.blendMode(BLEND);
 
-    if(frameCount > 1 && random(1) <  speed * 2){
+    boolean firstFrame = (frameCount % frameLength) == 1;
+
+    if((!firstFrame) && random(1) <  speed * 2){
         zTint = (int) random(100);
         
         g.tint(255, zTint);
@@ -95,7 +97,7 @@ void draw() {
     int imgWidth = cs;
     int imgHeight = cs;
     
-    if(frameCount == 1 || random(1) < speed * 0.5) {
+    if(firstFrame || random(1) < speed * 0.5) {
         density = (int) 10;//random(50) + 30;
         bloat = random(3) + 0.5;
         for(int i = 0; i < density; i++) {
@@ -112,7 +114,7 @@ void draw() {
 
             PGraphics res = processImage(subImg);
 
-            if((frameCount % vidLength) == 1 || random(1) < 0.2) {betweenImage = g.get();}
+            if(firstFrame || random(1) < 0.2) {betweenImage = g.get();}
 
             g.tint(255, 255);
             g.image(res, random(g.width - sw * bloat), random(g.height - sh * bloat), res.width * bloat, res.height * bloat);
@@ -125,7 +127,7 @@ void draw() {
 
     //PImage imgBack = get();
     //clear();
-    tint(255, frameCount == 1 ? 255 : 40);
+    tint(255, firstFrame ? 255 : 40);
     image(g, 0, 0, g.width, g.height);
     // tint(255, 255);
     // image(imgBack, 0, 0, cs, cs);
