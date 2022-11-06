@@ -112,7 +112,7 @@ void draw() {
 
             PGraphics res = processImage(subImg);
 
-            if(frameCount == 1 || random(1) < 0.2) {betweenImage = g.get();}
+            if((frameCount % vidLength) == 1 || random(1) < 0.2) {betweenImage = g.get();}
 
             g.tint(255, 255);
             g.image(res, random(g.width - sw * bloat), random(g.height - sh * bloat), res.width * bloat, res.height * bloat);
