@@ -44,14 +44,16 @@ void setup() {
 
     String s1=dataPath("");
 
-    String img0Folder = "img/dalle/";
+    String img0Folder = "img/aiSelina/";
     File path0 = new File(s1+"/" + img0Folder);
     String[] images0 = path0.list();
     img0 = loadImage(img0Folder + images0[(int)random(images0.length)]);
 
+    String img1Folder = "img/aiSelina/";
+    File path1 = new File(s1+"/" + img1Folder);
+    String[] images1 = path1.list();
+    img1 = loadImage(img1Folder + images1[(int)random(images1.length)]);
 
-    String img1Path = "img/ptth/" + Integer.toString((int)random(11)) + "a.jpg";
-    img1 = loadImage(s1+"/"+img1Path);
 
     img0.resize(cs, cs);
     int resize = (int) 1;//random(3) + 1;
@@ -68,7 +70,7 @@ void setup() {
 
     frameRate(25);
     background(0,0,0,255);
-    speed = random(0.05) + 0.025;
+    speed = random(0.05) + 0.0025;
     strength = 200;//(int) random(200) + 50;
     bloat = 1;
     density = 100;
@@ -78,7 +80,7 @@ void draw() {
     g.beginDraw();
     g.blendMode(BLEND);
 
-    if(frameCount == 1 || random(1) < 4 * speed){
+    if(frameCount == 1 || random(1) < 3 * speed){
         zTint = (int) random(30);
         PGraphics res0 = processImage(img0);
         
