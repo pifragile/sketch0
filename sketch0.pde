@@ -78,10 +78,11 @@ void setup() {
 
 PImage betweenImage;
 void draw() {
+    boolean firstFrame = (frameCount % frameLength) == 1;
+    if(firstFrame) {setup();}
+
     g.beginDraw();
     g.blendMode(BLEND);
-
-    boolean firstFrame = (frameCount % frameLength) == 1;
 
     if((!firstFrame) && random(1) <  speed * 2){
         zTint = (int) random(100);
