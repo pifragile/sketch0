@@ -125,7 +125,7 @@ void draw() {
 
     //PImage imgBack = get();
     //clear();
-    tint(255, 40);
+    tint(255, frameCount == 1 ? 255 : 40);
     image(g, 0, 0, g.width, g.height);
     // tint(255, 255);
     // image(imgBack, 0, 0, cs, cs);
