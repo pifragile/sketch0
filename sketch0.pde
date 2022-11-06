@@ -19,7 +19,7 @@ int zTint = 150;
 int numLoops = 0;
 
 // Zersetzungsstärke, Alle Werte möglich, 1 - 10 ist spannend, 0 = randomisiert
-int globalIters = 10;
+int globalIters = 2;
 
 ////////
 ///////
@@ -76,16 +76,16 @@ void setup() {
     density = 100;
 }
 
+PImage betweenImage;
 void draw() {
     g.beginDraw();
     g.blendMode(BLEND);
 
-    if(frameCount == 1 || random(1) < 3 * speed){
-        zTint = (int) random(30);
-        PGraphics res0 = processImage(img0);
+    if(frameCount > 1 && random(1) <  speed * 2){
+        zTint = (int) random(100);
         
         g.tint(255, zTint);
-        g.image(img0, 0, 0, cs, cs);
+        g.image(betweenImage, 0, 0, cs, cs);
     
         // g.tint((int) random(50), (int) random(20));
         // g.image(res0, 0, 0, cs, cs);
@@ -104,15 +104,19 @@ void draw() {
             
             PImage im = random(1.0) < 0.5 ? img0 : img1;
             
-            int x = floor(random(im.width * 0.5));
-            int y = floor(random(im.height * 0.5));
-            int sw = ceil((im.width - x - 1) * (random(0.7) + 0.3) + 1);
-            int sh = ceil((im.height - y - 1) * (random(0.7) + 0.3) + 1);
+            int x = floor(random(im.width * 0.2));`
+            int y = floor(random(im.height * 0.2));
+            int sw = ceil((im.width - x - 1) * (random(0.2) + 0.8) + 1);
+            int sh = ceil((im.height - y - 1) * (random(0.2) + 0.8) + 1);
             PImage subImg = im.get(x, y, sw, sh);
 
             PGraphics res = processImage(subImg);
+
+            if(frameCount == 1 || random(1) < 0.2) {betweenImage = g.get();}
+
             g.tint(255, 255);
             g.image(res, random(g.width - sw * bloat), random(g.height - sh * bloat), res.width * bloat, res.height * bloat);
+
             //g.blend(res, 0, 0, res.width, res.height, floor(random(g.width)), floor(random(g.height)), res.width, res.height, HARD_LIGHT);
                 }
     }
@@ -121,7 +125,7 @@ void draw() {
 
     //PImage imgBack = get();
     //clear();
-    tint(255, 50);
+    tint(255, 40);
     image(g, 0, 0, g.width, g.height);
     // tint(255, 255);
     // image(imgBack, 0, 0, cs, cs);
