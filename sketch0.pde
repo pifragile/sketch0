@@ -41,7 +41,7 @@ void draw() {
     numLoops = (int) random(10);
     globalIters = (int) random(10);
 
-    String img0Folder = "img/dalle/";
+    String img0Folder = "img/aiSelina/";
     File path0 = new File(s1+"/" + img0Folder);
     String[] images0 = path0.list();
     img0 = loadImage(img0Folder + images0[(int)random(images0.length)]);
