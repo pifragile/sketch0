@@ -47,8 +47,11 @@ void draw() {
     img0 = loadImage(img0Folder + images0[(int)random(images0.length)]);
 
 
-    String img1Path = "img/ptth/" + Integer.toString((int) random(11)) + "a.jpg";
-    img1 = loadImage(s1+"/"+img1Path);
+    String img1Folder = "img/ptth2/";
+    File path1 = new File(s1+"/" + img1Folder);
+    String[] images1 = path1.list();
+    img1 = loadImage(img1Folder + images1[(int)random(images1.length)]);
+
 
     if (img0 != null && img0.width > 0 && img1 != null && img1.width > 0) {
         int imgWidth = cs;
