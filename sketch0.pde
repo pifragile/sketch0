@@ -86,9 +86,13 @@ void draw() {
 
     if((!firstFrame) && random(1) <  speed * 2){
         zTint = (int) random(100);
+        int zTint2 = (int) random(100);
         
         g.tint(255, zTint);
         g.image(betweenImage, 0, 0, cs, cs);
+
+        g.tint(255, zTint2);
+        g.image(img0, 0, 0, cs, cs);
     
         // g.tint((int) random(50), (int) random(20));
         // g.image(res0, 0, 0, cs, cs);
@@ -135,7 +139,7 @@ void draw() {
 
     // //g.save(folderPath + Integer.toString((int) random(999999999)) + "_" + zTint+ "_" + numLoops + "_" + globalIters + ".png");
     // //noLoop();
-    rec();
+    //rec();
     
 }
 
